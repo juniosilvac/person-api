@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
-namespace Core.Person.Services.Implementations
+namespace Core.Person.Repository.Implementations
 {
-    public class PersonServiceImpl : IPersonService
+    public class PersonRepositoryImpl : IPersonRepository
     {
         private readonly MySqlContext _context;
 
-        public PersonServiceImpl(MySqlContext context)
+        public PersonRepositoryImpl(MySqlContext context)
         {
             _context = context;
         }     

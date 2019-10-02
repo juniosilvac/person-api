@@ -1,9 +1,9 @@
 ﻿using Core.Person.Model;
 using System.Collections.Generic;
 
-namespace Core.Person.Services
+namespace Core.Person.Repository
 {
-    public interface IPersonService
+    public interface IPersonRepository
     {
         Model.Person Create(Model.Person person);
 

@@ -49,12 +49,17 @@ namespace Person.Api.Controllers
         }
 
         // PUT api/values/5
-        [HttpPut("{id}")]
+        [HttpPut()]
         public IActionResult Put([FromBody] Core.Person.Model.Person person)
         {
             if (person == null)
             {
                 return BadRequest();
+            }
+            var updatePerson = _personBusiness.Update(person);
+            if(updatePerson == null)
+            {
+                return NoContent();
             }
 
             return new ObjectResult(_personBusiness.Update(person));

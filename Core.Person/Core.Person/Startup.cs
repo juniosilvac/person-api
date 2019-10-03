@@ -9,23 +9,52 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Core.Person.Repository;
 using Core.Person.Repository.Implementations;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
 
 namespace Person.Api
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public IConfiguration _configuration { get; }
+        private readonly ILogger _logger;
+        public IHostingEnvironment _environment { get; }
+        public Startup(IConfiguration configuration, IHostingEnvironment environment, ILogger<Startup> logger)
         {
-            Configuration = configuration;
-        }
-
-        public IConfiguration Configuration { get; }
+            _configuration = configuration;
+            _environment = environment;
+            _logger = logger;
+        }      
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var connection = Configuration["MySqlConnection:MySqlConnectionString"];
-            services.AddDbContext<MySqlContext>(options=> options.UseMySql(connection));
+            var connectionString = _configuration["MySqlConnection:MySqlConnectionString"];
+            services.AddDbContext<MySqlContext>(options=> options.UseMySql(connectionString));
+
+            if(_environment.IsDevelopment())
+            {
+                try
+                {
+                    var evolveConnetion = new MySql.Data.MySqlClient.MySqlConnection(connectionString);
+                    var evolve = new Evolve.Evolve(evolveConnetion, msg => _logger.LogInformation(msg))
+                    {
+                        Locations = new List<string>
+                        {
+                            "db/migrations"                            
+                        },
+                        IsEraseDisabled = true
+                    };
+
+                    evolve.Migrate();
+                }
+                catch(Exception err)
+                {
+                    _logger.LogCritical("Database migration failed.", err);
+                    throw;
+                }
+            }
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddApiVersioning();
@@ -36,18 +65,21 @@ namespace Person.Api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseHsts();
-            }
+            //if (env.IsDevelopment())
+            //{
+            //    app.UseDeveloperExceptionPage();
+            //}
+            //else
+            //{
+            //    app.UseHsts();
+            //}
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
+
+            loggerFactory.AddConsole(_configuration.GetSection("Loggin"));
+            loggerFactory.AddDebug();
             app.UseMvc();
         }
     }

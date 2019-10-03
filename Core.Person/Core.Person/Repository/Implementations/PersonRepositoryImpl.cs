@@ -62,7 +62,7 @@ namespace Core.Person.Repository.Implementations
         {           
             try
             {
-                if (!Exist(person.Id)) return new Model.Person();
+                if (!Exist(person.Id)) return null;
 
                 var result = _context.Persons.SingleOrDefault(p => p.Id.Equals(person.Id));
                 _context.Entry(result).CurrentValues.SetValues(person);

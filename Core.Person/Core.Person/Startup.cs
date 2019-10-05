@@ -63,6 +63,7 @@ namespace Person.Api
 
             services.AddScoped<IPersonBusiness, PersonBusinessImpl>();
             services.AddScoped<IPersonRepository, PersonRepositoryImpl>();
+            services.AddScoped<IBookBusiness, BookBusinessImpl>();
             services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
         }
 

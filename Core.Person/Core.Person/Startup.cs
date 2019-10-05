@@ -12,6 +12,7 @@ using Core.Person.Repository.Implementations;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using Core.Person.Generic;
 
 namespace Person.Api
 {
@@ -62,6 +63,7 @@ namespace Person.Api
 
             services.AddScoped<IPersonBusiness, PersonBusinessImpl>();
             services.AddScoped<IPersonRepository, PersonRepositoryImpl>();
+            services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

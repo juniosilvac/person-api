@@ -1,14 +1,12 @@
-﻿using System;
+﻿using Core.Person.Model.Base;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core.Person.Model
 {
-    public class Book
-    {
-        [Key]
-        [Column("id")]
-        public string Id { get; set; }
+    public class Book : BaseEntity
+    {        
         public string Title { get; set; }
         public string Author { get; set; }
         public string Price { get; set; }

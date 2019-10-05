@@ -77,7 +77,7 @@ namespace Core.Person.Repository.Implementations
             return person;
         }
 
-        private bool Exist(long id)
+        public bool Exist(long id)
         {
             return _context.Persons.Any(p => p.Id.Equals(id));
         }      

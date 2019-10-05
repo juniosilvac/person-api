@@ -14,5 +14,7 @@ namespace Core.Person.Repository
         Model.Person Update(Model.Person person);
 
         void Delete(long id);
+
+        bool Exist(long id);
     }
 }

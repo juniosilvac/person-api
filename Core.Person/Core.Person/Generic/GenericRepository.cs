@@ -54,7 +54,9 @@ namespace Core.Person.Generic
 
         public List<T> FindAll()
         {
-            return dataSet.ToList();
+           var result = dataSet.ToList();
+
+            return result;
         }
 
         public T FindById(long id)

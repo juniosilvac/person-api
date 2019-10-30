@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Person.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,13 +8,13 @@ namespace Core.Person.Business
 {
     public interface IBookBusiness
     {
-        Model.Book Create(Model.Book book);
+        Book Create(Book book);
 
-        Model.Book FindById(long id);
+        Book FindById(long id);
 
-        List<Model.Book> FindAll();
+        List<Book> FindAll();
 
-        Model.Book Update(Model.Book book);
+        Book Update(Book book);
 
         void Delete(long id);
 

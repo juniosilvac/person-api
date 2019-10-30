@@ -1,4 +1,5 @@
 ﻿using Core.Person.Business;
+using Core.Person.Data.VO;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -42,7 +43,7 @@ namespace Core.Person.Controllers
 
         // POST api/values
         [HttpPost]
-        public IActionResult Post([FromBody] Model.Book book)
+        public IActionResult Post([FromBody] BookVO book)
         {
             if (book == null)
             {
@@ -54,7 +55,7 @@ namespace Core.Person.Controllers
 
         // PUT api/values/5
         [HttpPut()]
-        public IActionResult Put([FromBody] Model.Book book)
+        public IActionResult Put([FromBody] BookVO book)
         {
             if (book == null)
             {

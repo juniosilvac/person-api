@@ -1,5 +1,4 @@
-﻿using Core.Person.Model;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Core.Person.Repository
 {

@@ -1,24 +1,28 @@
-﻿using Core.Person.Generic;
+﻿using Core.Person.Data.Converters;
+using Core.Person.Data.VO;
+using Core.Person.Generic;
 using Core.Person.Model;
-using Core.Person.Repository;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Core.Person.Business.Implementations
 {
     public class BookBusinessImpl : IBookBusiness
     {
         private readonly IRepository<Book> _repository;
+        private readonly BookConverter _converter;
 
         public BookBusinessImpl(IRepository<Book> repository)
         {
             _repository = repository;
-        }     
+            _converter = new BookConverter();
+        }
 
-        public Book Create(Book book)
+        public BookVO Create(BookVO book)
         {
-            return _repository.Create(book);
+            var bookEntity = _converter.Parse(book);
+            bookEntity = _repository.Create(bookEntity);
+
+            return _converter.Parse(bookEntity);
         }
 
         public void Delete(long id)
@@ -26,19 +30,22 @@ namespace Core.Person.Business.Implementations
             _repository.Delete(id);
         }
 
-        public List<Book> FindAll()
+        public List<BookVO> FindAll()
         {
-           return _repository.FindAll();
+            return _converter.ParseList(_repository.FindAll());
         }
 
-        public Book FindById(long id)
+        public BookVO FindById(long id)
         {
-            return _repository.FindById(id);
+            return _converter.Parse(_repository.FindById(id));
         }
 
-        public Book Update(Book book)
-        {  
-            return _repository.Update(book);
+        public BookVO Update(BookVO book)
+        {
+            var bookEntity = _converter.Parse(book);
+            bookEntity = _repository.Update(bookEntity);
+
+            return _converter.Parse(bookEntity);
         }
 
         public bool Exist(long id)
